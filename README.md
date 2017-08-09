@@ -1,24 +1,78 @@
 # README
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+# UCXGaming API
 
-Things you may want to cover:
+## Description
 
-* Ruby version
+#### _**This API is designed to be the back end for the UCXGaming site. It is a site designed to be an easy place to store and use various tabletop rpg character sheets.**
 
-* System dependencies
+#### _**By Tyler Stephenson, July 24, 2017**_
 
-* Configuration
+### Setup/Installation Requirements
+* clone <link to repo>
+* cd <local repo>
+* run this series of commands:
+  * `$ bundle install`
+  * `$ rails s`
 
-* Database creation
+## Planning
 
-* Database initialization
+1. Specs
+  * User model.
+    * name - string
+    * email - string
+    * admin - boolean
+    * timestamps
+  * User validations.
+    * presence and uniqueness of email
 
-* How to run the test suite
+  * GameSystem model.
+    * name - string
+    * publisher - string
+    * description - string
+    * timestamps
+  * GameSystem relationships
+    * has many CharacterSheets
+    * has many Sections, as sectional
 
-* Services (job queues, cache servers, search engines, etc.)
+  * Character model.
+    * char_sheet, boolean
+    * sheet_name
+    * timestamps
+  *  relationships
+    * belongs to User
+    * belongs to GameSystem
+    * has many Sections, as sectional
 
-* Deployment instructions
+  * Section model.
+    * name - string
+  *  relationships
+    * belongs to sectional, polymorphic
+    * recursively embeds many (embeds itself)
+    * embeds many Traits
 
-* ...
+  * Trait model.
+    * name - string
+    * property - string
+    * timestamps
+  *  relationships
+    * embeds in Section
+
+
+### Known Bugs
+No known bugs at this time.
+
+## Support and Contact details
+* Tyler Stephenson
+* ilduchea@gmail.com
+
+### Technologies Used
+
+* Ruby
+* Rails
+
+### License
+
+*This is web page is licensed under the MIT License.*
+
+Copyright (c) 2017 **Tyler Stephenson**
