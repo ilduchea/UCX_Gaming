@@ -2,7 +2,10 @@ class GameSystemsController < ApplicationController
 
   def index
     @game_systems = GameSystem.all
-    json_response(@game_systems)
+    # respond_to do |f|
+    #   f.html
+    #   f.json { json_response(@game_systems) }
+    # end
   end
 
   def show
