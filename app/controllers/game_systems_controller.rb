@@ -2,15 +2,22 @@ class GameSystemsController < ApplicationController
 
   def index
     @game_systems = GameSystem.all
-    # respond_to do |f|
-    #   f.html
-    #   f.json { json_response(@game_systems) }
-    # end
+    respond_to do |f|
+      f.html
+      f.json { json_response(@game_systems) }
+    end
   end
 
   def show
     @game_system = GameSystem.find(params[:id])
-    json_response(@game_system)
+    respond_to do |f|
+      f.html
+      f.json { json_response(@game_system) }
+    end
+  end
+
+  def new
+    @game_system = GameSystem.first
   end
 
   def create

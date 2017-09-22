@@ -4,10 +4,14 @@
     <title>UCXGaming</title>
     <%= csrf_meta_tags %>
 
+    <%= javascript_pack_tag 'application' %>
     <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload' %>
   </head>
 
   <body>
+    <header>
+      <%= link_to 'New GameSystem', new_game_system_path %>
+    </header>
     <%= yield %>
     <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
   </body>

@@ -1,0 +1,7 @@
+<%= javascript_pack_tag 'game_system/form_app.js' %>
+<% props = {
+    gs: @game_system
+  }.to_json 
+%>
+<h3><%= @game_system.name %></h3>
+<gameSystemForm data="<%= props %>"></gameSystemForm>
