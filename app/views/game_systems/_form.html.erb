@@ -1,7 +1,10 @@
 <%= javascript_pack_tag 'game_system/form_app.js' %>
+<%= stylesheet_pack_tag 'game_system/form.css' %>
+
 <% props = {
-    gs: @game_system
+    gs: @game_system,
+    new_gs: current_page?(new_game_system_path)
   }.to_json 
 %>
-<h3><%= @game_system.name %></h3>
+<%#= binding.pry %>
 <gameSystemForm data="<%= props %>"></gameSystemForm>

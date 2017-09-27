@@ -1,5 +1,11 @@
 <h1>Game Systems</h1>
 
-<% @game_systems.each do |game_system| %>
-  <%= game_system.name %>
-<% end %>
+<ul>
+  <% @game_systems.each do |game_system| %>
+    <li>
+      <%= game_system.name %>
+      <%= link_to 'Edit', edit_game_system_path(game_system) %>
+      <%= link_to "Delete", game_system_path(game_system), :data => {:confirm => "You sure?", :method => "delete"} %>
+    </li>
+  <% end %>
+</ul>

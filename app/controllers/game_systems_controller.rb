@@ -17,21 +17,21 @@ class GameSystemsController < ApplicationController
   end
 
   def new
-    @game_system = GameSystem.first
+    @game_system = GameSystem.new
   end
 
   def create
     @game_system = GameSystem.create!(game_system_params)
-    json_response(@game_system, :created)
+    render index
+  end
+
+  def edit
+    @game_system = GameSystem.find(params[:id])
   end
 
   def update
     @game_system = GameSystem.find(params[:id])
-    if @game_system.update!(game_system_params)
-      render status: 200, json: {
-        message: "Your game system has successfully been updated."
-      }
-    end
+    binding.pry
   end
 
   def destroy
@@ -45,6 +45,6 @@ class GameSystemsController < ApplicationController
 
 private
   def game_system_params
-    params.permit(:name, :publisher, :description)
+    params.permit(:name, :publisher, :description, :sections)
   end
 end

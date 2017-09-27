@@ -6,14 +6,3 @@
 //
 // To reference this file, add <%= javascript_pack_tag 'application' %> to the appropriate
 // layout file, like app/views/layouts/application.html.erb
-
-// var gameSystemForm = require('./game_system/form.vue');
-
-// var vueInit = function () {
-//   new Vue({
-//     el: 'body',
-//     components: { gameSystemForm }
-//   });
-// };
-
-// window.onload = vueInit;
