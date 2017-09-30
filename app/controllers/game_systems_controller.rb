@@ -10,6 +10,7 @@ class GameSystemsController < ApplicationController
 
   def show
     @game_system = GameSystem.find(params[:id])
+    @sections = @game_system.sections
     respond_to do |f|
       f.html
       f.json { json_response(@game_system) }
@@ -22,29 +23,46 @@ class GameSystemsController < ApplicationController
 
   def create
     @game_system = GameSystem.create!(game_system_params)
-    render index
+    create_sections params['sections'], @game_system
+    redirect_to 'index'
   end
 
   def edit
     @game_system = GameSystem.find(params[:id])
+    @sections = @game_system.sections
   end
 
   def update
     @game_system = GameSystem.find(params[:id])
-    binding.pry
+    @game_system.update!(game_system_params)
+    redirect_to 'index'
   end
 
   def destroy
     @game_system = GameSystem.find(params[:id])
     if @game_system.destroy
-      render status: 200, json: {
-        message: "Your game system has been deleted."
-      }
+      redirect_to 'index'
     end
   end
 
 private
   def game_system_params
-    params.permit(:name, :publisher, :description, :sections)
+    params.permit(:name, :publisher, :description, sections: [])
+  end
+
+  def create_sections sections, gs
+    sections.each do |section|
+      binding.pry
+      gs.sections.push section
+      create_child_sections section
+    end
+  end
+
+  def create_child_sections section
+    section.child_sections.each do |child|
+      child.traits.each { |trait| child.traits.push trait }
+      create_child_sections child
+      section.child_sections.push child
+    end
   end
 end

@@ -11,7 +11,7 @@
     <div>
       <ul>
         <li v-for="section in sections">
-          <sectionForm v-bind:section="section"></sectionForm>
+          <sectionForm :parentId="gsId" parentType="gs" :section.sync="section"></sectionForm>
         </li>
       </ul>
     </div>
@@ -34,17 +34,21 @@
     },
     props: {
       'gs': Object,
-      'new_gs': Boolean,
-      'edit': Boolean
+      'gsSections': Array,
+      'new_gs': Boolean
     },
     data: function() {
       // console.log()
       return {
+        gsId: this.gs._id.$oid,
         name: this.gs.name,
         publisher: this.gs.publisher,
         description: this.gs.description,
-        sections: []
+        sections: this.gsSections
       }
+    },
+    created: function() {
+      // console.log(this.gsSections);
     },
     methods: {
       create: function() {
@@ -56,7 +60,7 @@
         });
       },
       update: function() {
-        this.$http.patch(`/game_systems/${this.gs._id.$oid}`, {
+        this.$http.patch(`/game_systems/${this.gsId}`, {
           name: this.name,
           publisher: this.publisher,
           description: this.description,

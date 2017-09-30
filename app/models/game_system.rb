@@ -4,6 +4,7 @@ class GameSystem
 
   has_many :characters
   has_many :sections, as: :sectional, validate: false
+  accepts_nested_attributes_for :sections
 
   validates :name, :publisher, presence: true
 

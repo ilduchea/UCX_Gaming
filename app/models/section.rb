@@ -6,6 +6,7 @@ class Section
   belongs_to :sectional, polymorphic: true
   embeds_many :traits, cascade_callbacks: true
   accepts_nested_attributes_for :traits
+  accepts_nested_attributes_for :child_sections
 
 
   validates :name, presence: true
