@@ -9,7 +9,7 @@ class Section
   accepts_nested_attributes_for :child_sections
 
 
-  validates :name, presence: true
+  # validates :name, presence: true
 
   field :name
   field :keep, type: Boolean, default: false

@@ -19,11 +19,11 @@ class GameSystemsController < ApplicationController
 
   def new
     @game_system = GameSystem.new
+    @sections = []
   end
 
   def create
     @game_system = GameSystem.create!(game_system_params)
-    create_sections params['sections'], @game_system
     redirect_to 'index'
   end
 
@@ -52,7 +52,6 @@ private
 
   def create_sections sections, gs
     sections.each do |section|
-      binding.pry
       gs.sections.push section
       create_child_sections section
     end

@@ -3,25 +3,26 @@
     <label for="name">Name</label>
     <input v-model="section.name">
     <label for="keep">Keep</label>
-    <input type="checkbox" v-model="section.keep">
-    <ul>
-      <li v-if="sectionArray(section.traits)">Traits:</li>
-      <li v-for="trait in section.traits">
-        <label for="trait.name">Name</label>
-        <input v-model="trait.name"><br>
-        <label for="trait.property">Property</label>
-        <input v-model="trait.property"><br>
+    <input type="checkbox" v-model="section.keep"><br>
+    <p>Properties:</p>
+    <span v-for="trait in traits">
+      <input v-model="trait.name">
+    </span>
+    <button v-on:click="addTrait()">Add Property Name</button>
+    <!-- <button v-if="child_sections.length > 0" v-on:click="updateTraitKeys()">Update Child Property Names</button> -->
+    <ul v-if="child_sections.length > 0">
+      <li class="toggle" v-on:click="toggleChildern">{{section.name}}:</li>
+      <li class="child-section" v-show="childToggle" v-for="child, index in child_sections">
+        <span v-for="key in child.keys">
+          <label>{{ key.slice(4) }}:</label>
+          <input v-model="child[key]">
+        </span>        
+        <button v-on:click="deleteChildSection(index)">Delete</button>
       </li>
     </ul>
-    <ul>
-      <li v-if="sectionArray(section.child_sections)">Child Sections:</li>
-      <li v-for="section in section.child_sections">
-        <sectionForm parentType="sec" :section.sync="section"></sectionForm>
-      </li>
-    </ul>
-    <button v-on:click="addTrait(section)">Add Trait</button>
-    <button v-on:click="addChildSection(section)">Add Child Section</button>
-    <button v-if="parentType != 'sec'" v-on:click="saveSection(section)">Save</button>
+    <button v-on:click="addChildSection()">Add {{section.name}}</button>
+    <button v-on:click="saveSection(section)">Save</button>
+    <button v-on:click="deleteSection(section)">Delete</button>
   </div>
 </template>
 
@@ -36,56 +37,85 @@
     props: {
       'section': Object,
       'parentType': String,
-      'parentId': String
+      'parentId': String,
+      'id': Number
     },
     data: function() {
+      if (this.section.child_sections === undefined) {
+        this.section.child_sections = [];
+      }
       return {
-        
+        traits: this.section.traits,
+        child_sections: this.section.child_sections,
+        childToggle: false
       }
     },
+    created: function() {
+      // console.log(this.section.traits.length);
+      // console.log(this.section.traits);
+    },
     methods: {
-      sectionArray: function(array) {
-        if (array != undefined) {
-          return array.length > 0 ? true : false;
-        } else {
-          return false
-        }
-      },
-      addChildSection: function(section) {
-        section.child_sections.push({
+      addChildSection: function() {
+        let h = {
           name: '',
           keep: false,
-          traits: [],
-          child_sections: []
+          child_sections: [],
+          keys: []
+        };
+        this.addTraitKeys(h, this.traits);
+        this.child_sections.push(h);
+      },
+      addTraitKeys: function(h, a) {
+        a.forEach(function(trait) {
+          let cleanName = trait.name.split(' ').join('_');
+          let key = 'sec_' + cleanName;
+          h[key] = '';
+          h.keys.push(key);
         });
       },
-      addTrait: function(section) {
-        section.traits.push({
-          name: '',
-          property: ''
-        });
+      addTrait: function() {
+        this.traits.push({ name: '' });
       },
+      // updateTraitKeys: function() {
+        // fix later
+      //   let that = this;
+      //   this.section.child_sections.forEach(function(child) {
+      //     let newTraits = that.traits;
+      //     console.log('traits:', newTraits);
+      //     console.log('child:', child);
+      //     // addTraitKeys(child, newTraits);
+      //   });
+      // },
       saveSection: function(section) {
         if (this.section._id) {
           if (this.parentType === 'gs') {
-            this.$http.patch(`/sections/${this.section._id.$oid}`, {
-              name: this.section.name,
-              keep: this.section.keep,
-              traits: this.section.traits,
-              child_sections: this.section.child_sections
-            });
+            this.$http.patch(`/sections/${this.section._id.$oid}`, this.section);
           }
         }else {
           if (this.parentType === 'gs') {
-            this.$http.post('/sections', {
-              name: this.section.name,
-              keep: this.section.keep,
-              traits: this.section.traits,
-              child_sections: this.section.child_sections,
-              parent_type: this.parentType,
-              parent_id: this.parentId
-            });
+            this.section.parent_id = this.parentId;
+            this.section.parent_type = this.parentType;
+            this.section.traits = this.traits;
+            this.section.child_sections = this.child_sections;
+            this.$http.post('/sections', this.section);
           }
+        }
+      },
+      deleteSection: function(section) {
+        if (this.parentType === 'gs') {
+          this.$http.delete(`/sections/${this.section._id.$oid}`, this.section).then(r => {
+            this.$emit('section-remove', this.id);
+          });
+        }
+      },
+      deleteChildSection: function(i) {
+        this.child_sections.splice(i, 1);
+      },
+      toggleChildern: function() {
+        if (this.childToggle) {
+          this.childToggle = false;
+        } else {
+          this.childToggle = true;
         }
       }
     }
@@ -100,11 +130,14 @@
   ul {
     list-style-type: none;
   }
-  .col-2 {
-    width: 50%;
+  .toggle:hover {
+    cursor: pointer;
   }
-  .row {
-    display: flex;
+  .child-section {
+    border-bottom: 1px solid black;
+    padding-bottom: 5px;
+    margin-bottom: 5px; 
   }
+
 
 </style>

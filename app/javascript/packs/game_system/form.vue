@@ -1,17 +1,18 @@
 <template>
   <div>
     <div>
-      <label for="name">Name</label>
-      <input v-model="name"><br>
-      <label for="publisher">Publisher</label>
-      <input v-model="publisher"><br>
-      <label for="description">Description</label><br>
-      <textarea v-model="description"></textarea><br>
+      <label for="gs.name">Name</label>
+      <input v-model="gs.name"><br>
+      <label for="gs.publisher">Publisher</label>
+      <input v-model="gs.publisher"><br>
+      <label for="gs.description">Description</label><br>
+      <textarea v-model="gs.description"></textarea><br>
     </div>
     <div>
       <ul>
-        <li v-for="section in sections">
-          <sectionForm :parentId="gsId" parentType="gs" :section.sync="section"></sectionForm>
+        <li v-for="section, index in sections">
+          <sectionForm :id="index" :parentId="gsId" parentType="gs" :section.sync="section" v-on:section-remove="removeSection($event)"></sectionForm>
+          <hr>
         </li>
       </ul>
     </div>
@@ -41,9 +42,6 @@
       // console.log()
       return {
         gsId: this.gs._id.$oid,
-        name: this.gs.name,
-        publisher: this.gs.publisher,
-        description: this.gs.description,
         sections: this.gsSections
       }
     },
@@ -52,28 +50,27 @@
     },
     methods: {
       create: function() {
-        this.$http.post('/game_systems', {
-          name: this.name,
-          publisher: this.publisher,
-          description: this.description,
-          sections: this.sections
-        });
+        this.gs.sections = this.sections;
+        this.$http.post('/game_systems', this.gs);
       },
       update: function() {
-        this.$http.patch(`/game_systems/${this.gsId}`, {
-          name: this.name,
-          publisher: this.publisher,
-          description: this.description,
-          sections: this.sections
-        });
+        this.gs.sections = this.sections;
+        this.$http.patch(`/game_systems/${this.gsId}`, this.gs);
       },
       addSection: function() {
+        if (this.sections.length < 1) {
+          this.sections = [];
+        };
         this.sections.push({
           name: '',
           keep: false,
-          traits: [],
-          child_sections: []
+          child_sections: [],
+          keys: [],
+          traits: []
         });
+      },
+      removeSection: function(e) {
+        this.sections.splice(e, 1);
       }
     }
   }

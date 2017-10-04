@@ -6,5 +6,4 @@ class Trait
   validates :name, presence: true
 
   field :name
-  field :property
 end
