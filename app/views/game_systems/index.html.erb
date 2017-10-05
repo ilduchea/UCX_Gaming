@@ -3,7 +3,7 @@
 <ul>
   <% @game_systems.each do |game_system| %>
     <li>
-      <%= game_system.name %>
+      <%= link_to game_system.name, game_system_path(game_system) %>
       <%= link_to 'Edit', edit_game_system_path(game_system) %>
       <%= link_to "Delete", game_system_path(game_system), :data => {:confirm => "You sure?", :method => "delete"} %>
     </li>

@@ -1,0 +1,14 @@
+<h2><%= @game_system.name %></h2>
+<h3>By: <%= @game_system.publisher %></h3>
+
+<h3>Characters</h3>
+<%= link_to 'New Character', new_game_system_character_path(@game_system) %>
+<ul>
+  <% @characters.each do |character| %>
+    <li>
+      <%= character.name %>
+      <%= link_to 'Edit', edit_game_system_character_path(character, @game_system) %>
+      <%= link_to "Delete", game_system_character_path(character, @game_system), :data => {:confirm => "You sure?", :method => "delete"} %>
+    </li>
+  <% end %>
+</ul>

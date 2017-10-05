@@ -6,10 +6,10 @@ class Character
   # belongs_to :user, validation: false
   has_many :sections, as: :sectional, validate: false
 
-  validates :sheet_name, presence: true
+  validates :name, presence: true
 
-  field :sheet_name
-  field :char_sheet, type: Boolean, default: false
+  field :name
+  field :player_name
 
   def child_check section
     section.child_sections.each do |child_section|

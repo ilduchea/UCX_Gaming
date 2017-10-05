@@ -11,6 +11,7 @@ class GameSystemsController < ApplicationController
   def show
     @game_system = GameSystem.find(params[:id])
     @sections = @game_system.sections
+    @characters = @game_system.characters
     respond_to do |f|
       f.html
       f.json { json_response(@game_system) }
@@ -47,7 +48,7 @@ class GameSystemsController < ApplicationController
 
 private
   def game_system_params
-    params.permit(:name, :publisher, :description, sections: [])
+    params.permit(:name, :publisher, :description, :slug, sections: [])
   end
 
   def create_sections sections, gs

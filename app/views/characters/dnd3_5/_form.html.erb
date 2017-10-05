@@ -1,0 +1,12 @@
+<%= javascript_pack_tag "game_system/#{@gs.slug}/form_app.js" %>
+<%= stylesheet_pack_tag "game_system/#{@gs.slug}/form.css" %>
+
+<% props = {
+    gs: @gs,
+    gsSections: @gs_sections,
+    char: @character,
+    charSections: @sections
+  }.to_json 
+%>
+
+<characterForm data="<%= props %>"></characterForm>

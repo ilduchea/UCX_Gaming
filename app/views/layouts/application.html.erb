@@ -9,11 +9,16 @@
   </head>
 
   <body>
-    <header>
-      <%= link_to 'New Game System', new_game_system_path %>
-      <%= link_to 'Game Systems', game_systems_path %>
-    </header>
-    <%= yield %>
-    <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
+    <div class="container">
+      <div class="jumbotron">
+        <h1>UCX Gaming</h1>
+      </div>
+      <header>
+        <%= link_to 'New Game System', new_game_system_path %>
+        <%= link_to 'Game Systems', game_systems_path %>
+      </header>
+      <%= yield %>
+      <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
+    </div>
   </body>
 </html>

@@ -3,6 +3,8 @@
     <div>
       <label for="gs.name">Name</label>
       <input v-model="gs.name"><br>
+      <label for="gs.slug">Slug</label>
+      <input v-model="gs.slug"><br>
       <label for="gs.publisher">Publisher</label>
       <input v-model="gs.publisher"><br>
       <label for="gs.description">Description</label><br>
