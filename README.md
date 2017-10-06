@@ -4,15 +4,31 @@
 
 ## Description
 
-#### _**This API is designed to be the back end for the UCXGaming site. It is a site designed to be an easy place to store and use various tabletop rpg character sheets.**
+#### _**This site is designed to be an easy place to store and use various tabletop rpg character sheets. It uses a rails backend with Vue components for the UI interface. It also uses a NoSQL database so as to have an abstracted model structure. This allows for multiple game systems and variations on the character sheets.**
 
 #### _**By Tyler Stephenson, July 24, 2017**_
 
 ### Setup/Installation Requirements
 * clone <link to repo>
 * cd <local repo>
+* Setup a MongoDB Atlas account (there is a free version).
+* Create a `.env` file in the root dir of the project.
+* Add the following structure to the `.env` file replacing the `*****` your info.
+  * `MONGODB_USER=*****`
+    `MONGODB_PASS=*****`
+    `MONGODB_TEST_USER=*****`
+    `MONGODB_TEST_PASS=*****`
+  * In `config/mongoid.yml` add replace the following with your MongoDB info.
+    * `database: YOUR_DATABASE_NAME_development`
+
+      `hosts:`
+        `- Your shard 00 info`
+        `- Your shard 01 info`
+        `- Your shard 02 info`
 * run this series of commands:
   * `$ bundle install`
+  * `$ npm install`
+  * `$ webpack-dev-server`
   * `$ rails s`
 
 ## Planning
@@ -53,14 +69,13 @@
 
   * Trait model.
     * name - string
-    * property - string
     * timestamps
   *  relationships
     * embeds in Section
 
 
 ### Known Bugs
-No known bugs at this time.
+Still a work in progress.
 
 ## Support and Contact details
 * Tyler Stephenson
@@ -70,6 +85,9 @@ No known bugs at this time.
 
 * Ruby
 * Rails
+* MongoDB
+* Mongoid
+* VueJS
 
 ### License
 
