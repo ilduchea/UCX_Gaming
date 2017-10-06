@@ -12,10 +12,7 @@ class GameSystemsController < ApplicationController
     @game_system = GameSystem.find(params[:id])
     @sections = @game_system.sections
     @characters = @game_system.characters
-    respond_to do |f|
-      f.html
-      f.json { json_response(@game_system) }
-    end
+    render 'show'
   end
 
   def new
@@ -25,7 +22,7 @@ class GameSystemsController < ApplicationController
 
   def create
     @game_system = GameSystem.create!(game_system_params)
-    redirect_to 'index'
+    redirect_to game_system_path @game_system
   end
 
   def edit
@@ -36,13 +33,13 @@ class GameSystemsController < ApplicationController
   def update
     @game_system = GameSystem.find(params[:id])
     @game_system.update!(game_system_params)
-    redirect_to 'index'
+    redirect_to game_system_path @game_system
   end
 
   def destroy
     @game_system = GameSystem.find(params[:id])
     if @game_system.destroy
-      redirect_to 'index'
+      redirect_to game_systems_path
     end
   end
 

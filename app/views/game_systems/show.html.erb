@@ -7,8 +7,8 @@
   <% @characters.each do |character| %>
     <li>
       <%= character.name %>
-      <%= link_to 'Edit', edit_game_system_character_path(character, @game_system) %>
-      <%= link_to "Delete", game_system_character_path(character, @game_system), :data => {:confirm => "You sure?", :method => "delete"} %>
+      <%= link_to 'Edit', edit_game_system_character_path(@game_system, character) %>
+      <%= link_to "Delete", game_system_character_path(@game_system, character), :data => {:confirm => "You sure?", :method => "delete"} %>
     </li>
   <% end %>
 </ul>

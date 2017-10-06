@@ -26,31 +26,66 @@ class CharactersController < ApplicationController
   end
 
   def create
-    @character = Character.create!(character_params)
-    redirect_to 'index'
+    @gs = GameSystem.find(params[:game_system_id])
+    @character = @gs.characters.create(cs_info)
+    redirect_to game_system_path @gs
   end
 
   def edit
+    @gs = GameSystem.find(params[:game_system_id])
+    @gs_sections = @gs.sections
     @character = Character.find(params[:id])
     @sections = @character.sections
+    render "characters/#{@gs.slug}/edit"
   end
 
   def update
+    @gs = GameSystem.find(params[:game_system_id])
     @character = Character.find(params[:id])
-    @character.update!(character_params)
-    redirect_to 'index'
+    @character.update!(cs_info)
+    respond_to do |f|
+      f.html { redirect_to game_system_path @gs }
+      # f.js { "window.location = 'game_systems/#{@gs.id}" }
+    end
   end
 
   def destroy
     @character = Character.find(params[:id])
     if @character.destroy
-      redirect_to 'index'
+      redirect_to game_system_path params[:game_system_id]
     end
   end
 
 private
   def character_params
-    params.permit(:name, :publisher, :description, sections: [])
+    params.permit(:game_system_id, :name, :player_name, sections: []).merge(get_cs_params)
+  end
+
+  def cs_info
+    {
+      name: params['name'],
+      player_name: params['player_name']
+    }.merge(get_cs_info params)
+  end
+
+  def get_cs_params
+    reg_ex = /(\bcs_)\w*/
+    cs_params = []
+    params.each_pair do |k, v|
+      reg_ex.match(k) { cs_params << k }
+    end
+    cs_params
+  end
+
+  def get_cs_info h
+    reg_ex = /(\bcs_)\w*/
+    cs_info = {}
+    h.each_pair do |k, v|
+      reg_ex.match(k) {
+        cs_info.merge!({k => JSON.parse(v.to_json)})
+      }
+    end
+    cs_info
   end
 
   def create_sections sections, gs

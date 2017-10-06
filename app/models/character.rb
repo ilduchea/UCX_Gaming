@@ -1,6 +1,7 @@
 class Character
   include Mongoid::Document
   include Mongoid::Timestamps
+  include Mongoid::Attributes::Dynamic
 
   belongs_to :game_system
   # belongs_to :user, validation: false

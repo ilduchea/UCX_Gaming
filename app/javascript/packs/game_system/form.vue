@@ -53,11 +53,17 @@
     methods: {
       create: function() {
         this.gs.sections = this.sections;
-        this.$http.post('/game_systems', this.gs);
+        this.$http.post('/game_systems', this.gs).then(function(r) {
+          // Turbolinks.clearCache();
+          // Turbolinks.visit(`/game_systems`, { "action": "replace" });
+        });
       },
       update: function() {
         this.gs.sections = this.sections;
-        this.$http.patch(`/game_systems/${this.gsId}`, this.gs);
+        this.$http.patch(`/game_systems/${this.gsId}`, this.gs).then(function(r) {
+          // Turbolinks.clearCache();
+          // Turbolinks.visit(`/game_systems/${this.gsId}`, { "action": "replace" });
+        });
       },
       addSection: function() {
         if (this.sections.length < 1) {
