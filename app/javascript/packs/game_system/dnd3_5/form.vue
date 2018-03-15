@@ -97,109 +97,43 @@
       </div>
       <div class="col-sm-2">
         <p class="no-margin">ABILITY SCORE</p>
-        <select v-model="char.cs_str" v-on:change="updateStatMod(char.cs_str, 'str_mod')">
-          <option v-for="stat in stats.child_sections" :value="stat">
-            {{ stat['sec_score'] }}
-          </option>
-        </select>
-        <select v-model="char.cs_dex" v-on:change="updateStatMod(char.cs_dex, 'dex_mod')">
-          <option v-for="stat in stats.child_sections" :value="stat">
-            {{ stat['sec_score'] }}
-          </option>
-        </select>
-        <select v-model="char.cs_con" v-on:change="updateStatMod(char.cs_con, 'con_mod')">
-          <option v-for="stat in stats.child_sections" :value="stat">
-            {{ stat['sec_score'] }}
-          </option>
-        </select>
-        <select v-model="char.cs_int" v-on:change="updateStatMod(char.cs_int, 'int_mod')">
-          <option v-for="stat in stats.child_sections" :value="stat">
-            {{ stat['sec_score'] }}
-          </option>
-        </select>
-        <select v-model="char.cs_wis" v-on:change="updateStatMod(char.cs_wis, 'wis_mod')">
-          <option v-for="stat in stats.child_sections" :value="stat">
-            {{ stat['sec_score'] }}
-          </option>
-        </select>
-        <select v-model="char.cs_cha" v-on:change="updateStatMod(char.cs_cha, 'cha_mod')">
-          <option v-for="stat, index in stats.child_sections" :value="stat" v-bind:selected="index === 0 ? 'selected' : false">
-            {{ stat['sec_score'] }}
-          </option>
-        </select>
+        <input v-model="char.cs_str" type="number" min="0" max="45" step="1" @change="updateStatMod(char.cs_str, 'str_mod')">
+        <input v-model="char.cs_dex" type="number" min="0" max="45" step="1" @change="updateStatMod(char.cs_dex, 'dex_mod')">
+        <input v-model="char.cs_con" type="number" min="0" max="45" step="1" @change="updateStatMod(char.cs_con, 'con_mod')">
+        <input v-model="char.cs_int" type="number" min="0" max="45" step="1" @change="updateStatMod(char.cs_int, 'int_mod')">
+        <input v-model="char.cs_wis" type="number" min="0" max="45" step="1" @change="updateStatMod(char.cs_wis, 'wis_mod')">
+        <input v-model="char.cs_cha" type="number" min="0" max="45" step="1" @change="updateStatMod(char.cs_cha, 'cha_mod')">
       </div>
       <div class="col-sm-2">
         <p class="no-margin">ABILITY MODIFIER</p>
-        <div class="fake-input str_mod">
-          {{ new_char ? '' : char.cs_str.sec_mod }}
-        </div>
-        <div class="fake-input dex_mod">
-          {{ new_char ? '' : char.cs_dex.sec_mod }}
-        </div>
-        <div class="fake-input con_mod">
-          {{ new_char ? '' : char.cs_con.sec_mod }}
-        </div>
-        <div class="fake-input int_mod">
-          {{ new_char ? '' : char.cs_int.sec_mod }}
-        </div>
-        <div class="fake-input wis_mod">
-          {{ new_char ? '' : char.cs_wis.sec_mod }}
-        </div>
-        <div class="fake-input cha_mod">
-          {{ new_char ? '' : char.cs_cha.sec_mod }}
-        </div>
+        <input v-model="str_mod" type="number" disabled>
+        <input v-model="dex_mod" type="number" disabled>
+        <input v-model="con_mod" type="number" disabled>
+        <input v-model="int_mod" type="number" disabled>
+        <input v-model="wis_mod" type="number" disabled>
+        <input v-model="cha_mod" type="number" disabled>
       </div>
       <div class="col-sm-1"></div>
       <div class="col-sm-2 no-margin">
         <p class="no-margin">TEMPORARY SCORE</p>
         <div class="dark-highlight">
-          <select v-model="char.cs_temp_str" v-on:change="updateStatMod(char.cs_temp_str, 'temp_str_mod')">
-            <option value="none" selected="true">n/a</option>
-            <option v-for="stat in stats.child_sections" :value="stat">
-              {{ stat['sec_score'] }}
-            </option>
-          </select>
-          <select v-model="char.cs_temp_dex" v-on:change="updateStatMod(char.cs_temp_dex, 'temp_dex_mod')">
-            <option value="none" selected="true">n/a</option>
-            <option v-for="stat in stats.child_sections" :value="stat">
-              {{ stat['sec_score'] }}
-            </option>
-          </select>
-          <select v-model="char.cs_temp_con" v-on:change="updateStatMod(char.cs_temp_con, 'temp_con_mod')">
-            <option value="none" selected="true">n/a</option>
-            <option v-for="stat in stats.child_sections" :value="stat">
-              {{ stat['sec_score'] }}
-            </option>
-          </select>
-          <select v-model="char.cs_temp_int" v-on:change="updateStatMod(char.cs_temp_int, 'temp_int_mod')">
-            <option value="none" selected="true">n/a</option>
-            <option v-for="stat in stats.child_sections" :value="stat">
-              {{ stat['sec_score'] }}
-            </option>
-          </select>
-          <select v-model="char.cs_temp_wis" v-on:change="updateStatMod(char.cs_temp_wis, 'temp_wis_mod')">
-            <option value="none" selected="true">n/a</option>
-            <option v-for="stat in stats.child_sections" :value="stat">
-              {{ stat['sec_score'] }}
-            </option>
-          </select>
-          <select v-model="char.cs_temp_cha" v-on:change="updateStatMod(char.cs_temp_cha, 'temp_cha_mod')">
-            <option value="none" selected="true">n/a</option>
-            <option v-for="stat, index in stats.child_sections" :value="stat" v-bind:selected="index === 0 ? 'selected' : false">
-              {{ stat['sec_score'] }}
-            </option>
-          </select>
+          <input v-model="char.cs_temp_str" type="number" max="45" step="1" @change="updateStatMod(char.cs_temp_str, 'temp_str_mod')">
+          <input v-model="char.cs_temp_dex" type="number" max="45" step="1" @change="updateStatMod(char.cs_temp_dex, 'temp_dex_mod')">
+          <input v-model="char.cs_temp_con" type="number" max="45" step="1" @change="updateStatMod(char.cs_temp_con, 'temp_con_mod')">
+          <input v-model="char.cs_temp_int" type="number" max="45" step="1" @change="updateStatMod(char.cs_temp_int, 'temp_int_mod')">
+          <input v-model="char.cs_temp_wis" type="number" max="45" step="1" @change="updateStatMod(char.cs_temp_wis, 'temp_wis_mod')">
+          <input v-model="char.cs_temp_cha" type="number" max="45" step="1" @change="updateStatMod(char.cs_temp_cha, 'temp_cha_mod')">
         </div>
       </div>
       <div class="col-sm-2 no-margin">
         <p class="no-margin">TEMPORARY MODIFIER</p>
         <div class="dark-highlight">
-          <div class="fake-input temp_str_mod"></div>
-          <div class="fake-input temp_dex_mod"></div>
-          <div class="fake-input temp_con_mod"></div>
-          <div class="fake-input temp_int_mod"></div>
-          <div class="fake-input temp_wis_mod"></div>
-          <div class="fake-input temp_cha_mod"></div>
+          <input v-model="temp_str_mod" type="number" disabled>
+          <input v-model="temp_dex_mod" type="number" disabled>
+          <input v-model="temp_con_mod" type="number" disabled>
+          <input v-model="temp_int_mod" type="number" disabled>
+          <input v-model="temp_wis_mod" type="number" disabled>
+          <input v-model="temp_cha_mod" type="number" disabled>
         </div>
       </div>
     </div>
@@ -251,7 +185,8 @@
           <p>SHIELD BONUS</p>
         </div>
         <div class="col-sm-1">
-          <input class="dex_mod" disabled>
+          <input v-if="temp_dex_mod === ''" v-model="dex_mod" class="dex_mod" disabled>
+          <input v-else v-model="temp_dex_mod" class="dex_mod" disabled>
           <span>+</span>
           <p>DEX MODIFIER</p>
         </div>
@@ -320,16 +255,28 @@ export default {
       gsId: this.gs._id.$oid,
       charId: this.char._id.$oid,
       sections: this.charSections,
-      stats: this.gsSections.find(this.findSection('stats'))
+      stats: this.gsSections.find(this.findSection('stats')),
+      str_mod: '',
+      dex_mod: '',
+      con_mod: '',
+      int_mod: '',
+      wis_mod: '',
+      cha_mod: '',
+      temp_str_mod: '',
+      temp_dex_mod: '',
+      temp_con_mod: '',
+      temp_int_mod: '',
+      temp_wis_mod: '',
+      temp_cha_mod: ''
     }
   },
   created: function() {
-    // console.log(this.gsSections);
+    console.log('sections: ', this.sections);
+    console.log('char: ', this.char);
     this.setCharStats();
   },
   methods: {
     createChar: function() {
-      this.getCharStatsIds();
       this.char.sections = this.sections;
       this.$http.post(`/game_systems/${this.gsId}/characters`, this.char).then(function(r) {
         // Turbolinks.clearCache();
@@ -337,29 +284,20 @@ export default {
       });
     },
     updateChar: function() {
-      this.getCharStatsIds();
       this.char.sections = this.sections;
       this.$http.patch(`/game_systems/${this.gsId}/characters/${this.char._id.$oid}`, this.char).then(function(r) {
         // Turbolinks.clearCache();
         // Turbolinks.visit(`/game_systems/${this.gsId}`, { "action": "reload" });
       });
     },
-    getCharStatsIds: function() {
-      this.char.cs_str = this.char.cs_str.sec_score
-      this.char.cs_dex = this.char.cs_dex.sec_score
-      this.char.cs_con = this.char.cs_con.sec_score
-      this.char.cs_int = this.char.cs_int.sec_score
-      this.char.cs_wis = this.char.cs_wis.sec_score
-      this.char.cs_cha = this.char.cs_cha.sec_score
-    },
     setCharStats: function() {
       if (this.char._id) {
-        this.char.cs_str = this.stats.child_sections.find(this.findStatScore(this.char.cs_str));
-        this.char.cs_dex = this.stats.child_sections.find(this.findStatScore(this.char.cs_dex));
-        this.char.cs_con = this.stats.child_sections.find(this.findStatScore(this.char.cs_con));
-        this.char.cs_int = this.stats.child_sections.find(this.findStatScore(this.char.cs_int));
-        this.char.cs_wis = this.stats.child_sections.find(this.findStatScore(this.char.cs_wis));
-        this.char.cs_cha = this.stats.child_sections.find(this.findStatScore(this.char.cs_cha));
+        this.updateStatMod(this.char.cs_str, 'str_mod');
+        this.updateStatMod(this.char.cs_dex, 'dex_mod');
+        this.updateStatMod(this.char.cs_con, 'con_mod');
+        this.updateStatMod(this.char.cs_int, 'int_mod');
+        this.updateStatMod(this.char.cs_wis, 'wis_mod');
+        this.updateStatMod(this.char.cs_cha, 'cha_mod');
       }
     },
     findSection: function(name) {
@@ -373,10 +311,10 @@ export default {
       }
     },
     updateStatMod: function(value, name) {
-      if (value === 'none') {
-        $(`.${name}`).text('');
+      if (value === '') {
+        this[name] = '';
       } else {
-        $(`.${name}`).text(value.sec_mod);
+        this[name] = Math.floor(value / 2) - 5;
       }
     },
     addSection: function() {
@@ -401,6 +339,11 @@ export default {
 <style scoped>
 input {
   width: 100%;
+}
+
+input[type="number"] {
+  margin-bottom: 15px;
+  text-align: center;
 }
 
 select {
