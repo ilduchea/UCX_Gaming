@@ -20,14 +20,17 @@ class CharactersController < ApplicationController
   def new
     @gs = GameSystem.find(params[:game_system_id])
     @gs_sections = @gs.sections
-    @character = Character.new
-    @sections = []
+    @character = Character.set_new_char @gs
+    @sections = @character.sections
     render "characters/#{@gs.slug}/new"
   end
 
   def create
     @gs = GameSystem.find(params[:game_system_id])
+    sections = params[:sections]
     @character = @gs.characters.create(cs_info)
+    create_sections sections, @character
+    @character.save
     redirect_to game_system_path @gs
   end
 
@@ -88,10 +91,13 @@ private
     cs_info
   end
 
-  def create_sections sections, gs
+  def create_sections sections, h
     sections.each do |section|
-      gs.sections.push section
-      create_child_sections section
+      s = JSON.parse(section.to_json)
+      s['sectional_type'] = nil
+      s['sectional_id'] = nil
+      newSection = Section.new(s)
+      h.sections.push newSection
     end
   end
 
