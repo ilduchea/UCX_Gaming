@@ -18,9 +18,9 @@
         </li>
       </ul>
     </div>
-    <button v-on:click="addSection">Add Section</button>
-    <button v-if="new_gs" v-on:click="create">Create</button>
-    <button v-else v-on:click="update">Update</button>
+    <button @click="addSection">Add Section</button>
+    <button v-if="new_gs" @click="create">Create</button>
+    <button v-else @click="update">Update</button>
   </div>
 </template>
 
