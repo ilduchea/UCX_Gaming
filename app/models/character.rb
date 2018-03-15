@@ -18,25 +18,28 @@ class Character
       child_section.traits.each do |trait|
         trait._id = BSON::ObjectId.new
       end
-      child_check child_section
     end
   end
 
-  def self.set_new_char cs
-    char = Character.new(cs.attributes)
-    char.created_at = nil
-    char.updated_at = nil
-    char.char_sheet = false
-    char._id = BSON::ObjectId.new
-    char.sections.each do |section|
+  def self.set_new_char gs
+    char = Character.new
+    gs.sections.each do |section|
       unless section.keep
         section._id = BSON::ObjectId.new
+        section.sectional_type = ''
+        section.sectional_id = ''
         section.traits.each do |trait|
           trait._id = BSON::ObjectId.new
         end
-        child_check section
+        section.child_sections.each do |child_section|
+          child_section._id = BSON::ObjectId.new
+          child_section.traits.each do |trait|
+            trait._id = BSON::ObjectId.new
+          end
+        end
+        char.sections.push(section)
       end
     end
-    char.save
+    char
   end
 end
